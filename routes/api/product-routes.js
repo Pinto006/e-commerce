@@ -32,9 +32,9 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-    const productData = await Product.findone({
+    const productData = await Product.findOne({
       where: {
-        id:req.params.id
+        id: parseInt(req.params.id)
       }, 
       include: [
         Category,
@@ -54,7 +54,7 @@ router.get('/:id', async (req, res) => {
 }
 });
 
-// create new product NO ACTION NEEDED?
+// create new product 
 router.post('/', (req, res) => {
   /* req.body should look like this...
     {
@@ -91,7 +91,7 @@ router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
     where: {
-      id: req.params.id,
+      id: parseInt(req.params.id),
     },
   })
     .then((product) => {
@@ -106,7 +106,7 @@ router.put('/:id', (req, res) => {
           .filter((tag_id) => !productTagIds.includes(tag_id))
           .map((tag_id) => {
             return {
-              product_id: req.params.id,
+              product_id: parseInt(req.params.id),
               tag_id,
             };
           });
@@ -136,7 +136,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
       where: {
-        id: req.params.id
+        id: parseInt(req.params.id)
       }
     });
     if (!productData) {

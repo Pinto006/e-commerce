@@ -8,36 +8,36 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   try {
     const categoryData = await Category.findAll({
-      include: [{ model: Product }],
+      include: [Product],
     })
     if (!categoryData) {
       res.status(404).json({ message: 'No product found with this id!' });
       return;
     }
     res.status(200).json(categoryData);
-} catch (err) {
-  res.status(500).json(err);
-}
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   try {
-    const categoryData = await Category.findone({
+    const categoryData = await Category.findOne({
       where: {
-        id:req.params.id
-      }, 
-      include: [{ model: Product }],
+        id: parseInt(req.params.id)
+      },
+      include: [Product],
     })
     if (!categoryData) {
       res.status(404).json({ message: 'No product found with this id!' });
       return;
     }
     res.status(200).json(categoryData);
-} catch (err) {
-  res.status(500).json(err);
-}
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -50,30 +50,33 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
-  Category.update(
-    {
-      cateogory_name: req.body.cateogory_name
-    },
-    {
-      where: {
-        id: req.params.id,
+  try {
+    const updatedCateogry = await Category.update(
+      {
+        cateogory_name: req.body.cateogory_name
       },
-    }
-  )
-  .then((updatedCateogry) => {
+      {
+        where: {
+          id: parseInt(req.params.id),
+        },
+      }
+    )
     // Sends the updated book as a json response
     res.json(updatedCateogry);
-  })
-  .catch((err) => res.json(err));
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
   try {
     const categoryData = await Category.destroy({
-      where: { id: req.params.id }
+      where: { 
+        id: parseInt(req.params.id)
+      }
     });
     if (!categoryData) {
       res.status(404).json({ message: 'No category with this id!' });
