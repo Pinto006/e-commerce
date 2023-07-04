@@ -7,7 +7,7 @@ This is a back-end application for an e-commerce site that utilizes Express, Nod
 ## Installation
 To complete this project I used, Javascript, Node.js, Sequelize, MYSQL 2, Express.js, and Dotenv.  
 
-E-Commerce walkthrough video:  
+E-Commerce walkthrough video:  https://drive.google.com/file/d/1-LroUhkaeTp7l5cdPI0hVu4dD5d9fPGq/view
 
 ![Alt text](images/Screenshot.png)
 
